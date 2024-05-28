@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using Unity.BossRoom.Utils;
@@ -160,6 +161,7 @@ namespace Unity.BossRoom.ConnectionManagement
 
         public void StartClientIp(string playerName, string ipaddress, int port)
         {
+            HostMigrationManager.instance?.SetLocalConnection(new PlayerConnectionDataIp(port, playerName));
             m_CurrentState.StartClientIP(playerName, ipaddress, port);
         }
 
@@ -170,6 +172,7 @@ namespace Unity.BossRoom.ConnectionManagement
 
         public void StartHostIp(string playerName, string ipaddress, int port)
         {
+            HostMigrationManager.instance?.SetLocalConnection(new PlayerConnectionDataIp(port, playerName, ipaddress));
             m_CurrentState.StartHostIP(playerName, ipaddress, port);
         }
 

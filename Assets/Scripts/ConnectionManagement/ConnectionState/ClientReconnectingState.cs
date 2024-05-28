@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
+using System.Net;
 using Unity.BossRoom.Infrastructure;
+using Unity.Networking.Transport.Error;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using VContainer;
 
@@ -27,7 +30,12 @@ namespace Unity.BossRoom.ConnectionManagement
         public override void Enter()
         {
             m_NbAttempts = 0;
-            m_ReconnectCoroutine = m_ConnectionManager.StartCoroutine(ReconnectCoroutine());
+            //m_ConnectionManager.ChangeState(m_ConnectionManager.m_Offline);
+            ////After first reconnection attempts change host
+            //HostMigrationManager.instance.StartHostMigration();
+
+            //This doesn't work properly
+            //m_ReconnectCoroutine = m_ConnectionManager.StartCoroutine(ReconnectCoroutine());
         }
 
         public override void Exit()
@@ -116,6 +124,7 @@ namespace Unity.BossRoom.ConnectionManagement
             }
 
             m_NbAttempts++;
+
             var reconnectingSetupTask = m_ConnectionMethod.SetupClientReconnectionAsync();
             yield return new WaitUntil(() => reconnectingSetupTask.IsCompleted);
 
