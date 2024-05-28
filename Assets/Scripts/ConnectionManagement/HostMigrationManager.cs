@@ -51,8 +51,12 @@ public class HostMigrationManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void AddConnectionIp_ServerRpc(PlayerConnectionDataIp data)
     {
-        PlayerConnections_Server.Add(data);
-        UpdateConnections_ClientRpc(PlayerConnections_Server.ToArray());
+        if(PlayerConnections_Server.Find(e => e.Equals(data)) == null) //Add only unique connections
+        {
+            PlayerConnections_Server.Add(data);
+            UpdateConnections_ClientRpc(PlayerConnections_Server.ToArray());
+
+        }
     }
 
     [ClientRpc]
@@ -106,10 +110,10 @@ public class HostMigrationManager : NetworkBehaviour
             connectionManager.StartClientIp(LocalConnection.playerName, LocalConnection.ipaddress, LocalConnection.port);
         }
 
-        if(NetworkManager.Singleton.IsServer)
-        {
-            yield return new WaitUntil(() => NetworkManager.Singleton.ConnectedClientsIds.Count == PlayerConnections_Server.Count);
-        }
+        //if(NetworkManager.Singleton.IsServer)
+        //{
+        //    yield return new WaitUntil(() => NetworkManager.Singleton.ConnectedClientsIds.Count == PlayerConnections_Server.Count); //Here we can start game again
+        //}
 
         StopHostMigration();
     }
