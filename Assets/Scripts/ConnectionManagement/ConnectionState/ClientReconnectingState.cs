@@ -30,9 +30,9 @@ namespace Unity.BossRoom.ConnectionManagement
         public override void Enter()
         {
             m_NbAttempts = 0;
-            //m_ConnectionManager.ChangeState(m_ConnectionManager.m_Offline);
-            ////After first reconnection attempts change host
-            //HostMigrationManager.instance.StartHostMigration();
+            m_ConnectionManager.ChangeState(m_ConnectionManager.m_Offline);
+            //After first reconnection attempts change host
+            HostMigrationManager.instance.StartHostMigration();
 
             //This doesn't work properly
             //m_ReconnectCoroutine = m_ConnectionManager.StartCoroutine(ReconnectCoroutine());

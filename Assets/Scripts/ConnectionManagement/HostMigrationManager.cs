@@ -55,7 +55,6 @@ public class HostMigrationManager : NetworkBehaviour
         {
             PlayerConnections_Server.Add(data);
             UpdateConnections_ClientRpc(PlayerConnections_Server.ToArray());
-
         }
     }
 
